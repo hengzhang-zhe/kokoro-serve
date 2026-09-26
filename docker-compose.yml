@@ -1,0 +1,25 @@
+name: kokoro-serve
+
+services:
+  kokoro-serve:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: kokoro-serve
+
+    ports:
+      - "127.0.0.1:${KOKORO_SERVE_PORT:-8880}:8880"
+
+    environment:
+      KOKORO_SERVE_MODEL_REPO: ${KOKORO_SERVE_MODEL_REPO:-hexgrad/Kokoro-82M}
+      KOKORO_SERVE_DEVICE: ${KOKORO_SERVE_DEVICE:-cpu}
+      KOKORO_SERVE_MAX_INPUT_CHARS: ${KOKORO_SERVE_MAX_INPUT_CHARS:-4096}
+      KOKORO_SERVE_MAX_CONCURRENCY: ${KOKORO_SERVE_MAX_CONCURRENCY:-2}
+      HF_HOME: /data/huggingface
+
+    volumes:
+      - ./data/huggingface:/data/huggingface
+      - ./output:/app/output
+
+    restart: unless-stopped

@@ -33,7 +33,7 @@
         <h1>Kokoro Batch Audio Studio</h1>
         <p class="sub">上传 Typingo 导出的 TTS 任务，批量生成音频与可回导的资源清单。</p>
       </div>
-      <div class="badge" id="health">正在检查服务…</div>
+      <div style="display:flex;gap:10px;align-items:center"><button id="downloadVoices">下载 Voice Catalog</button><div class="badge" id="health">正在检查服务…</div></div>
     </div>
 
     <section class="card">
@@ -131,6 +131,7 @@ async function poll(){
     $('generate').disabled=false;showError(job.error||'批量生成失败')
   }catch(e){showError(e.message)}
 }
+$('downloadVoices').addEventListener('click',async()=>{try{const data=await json('/v1/audio/voices');const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='voice-catalog.json';a.click();URL.revokeObjectURL(url)}catch(e){showError(e.message)}})
 $('generate').addEventListener('click',generate)
 $('download').addEventListener('click',()=>{if(job)location.href='/v1/batches/'+job.id+'/download'})
 $('file').addEventListener('change',e=>{const f=e.target.files?.[0];if(f)upload(f)})

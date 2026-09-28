@@ -20,11 +20,11 @@ if ($source.schemaVersion -ne "typingo-tts-export/v1") {
     throw "Unsupported input schemaVersion: $($source.schemaVersion)"
 }
 
-$voices = @(
-    @{ voice = "af_heart";   locale = "en-US"; label = "us-female" },
-    @{ voice = "am_michael"; locale = "en-US"; label = "us-male" },
-    @{ voice = "bf_emma";    locale = "en-GB"; label = "uk-female" },
-    @{ voice = "bm_george";  locale = "en-GB"; label = "uk-male" }
+$defaultVoices = @(
+    [pscustomobject]@{ voice = "af_heart";   locale = "en-US"; gender = "female"; accent = "US" },
+    [pscustomobject]@{ voice = "am_michael"; locale = "en-US"; gender = "male";   accent = "US" },
+    [pscustomobject]@{ voice = "bf_emma";    locale = "en-GB"; gender = "female"; accent = "UK" },
+    [pscustomobject]@{ voice = "bm_george";  locale = "en-GB"; gender = "male";   accent = "UK" }
 )
 
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -41,7 +41,13 @@ foreach ($item in $source.items) {
     $index++
     Write-Host "[$index/$total] $($item.contentId) $($item.type): $($item.text)"
 
-    foreach ($profile in $voices) {
+    $profiles = if ($null -ne $item.variants -and @($item.variants).Count -gt 0) {
+        @($item.variants)
+    } else {
+        $defaultVoices
+    }
+
+    foreach ($profile in $profiles) {
         $contentDir = Join-Path $audioRoot $item.contentId
         New-Item -ItemType Directory -Force -Path $contentDir | Out-Null
 
@@ -84,7 +90,7 @@ foreach ($item in $source.items) {
                 durationSeconds = $null
             })
 
-            Write-Host "  OK $($profile.label) -> $objectKey"
+            Write-Host "  OK $($profile.accent)-$($profile.gender) $($profile.voice) -> $objectKey"
         }
         catch {
             $failed.Add([pscustomobject]@{

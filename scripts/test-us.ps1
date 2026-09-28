@@ -9,7 +9,7 @@ $body = @{
 } | ConvertTo-Json
 
 Invoke-WebRequest `
-  -Uri "http://localhost:8880/v1/audio/speech" `
+  -Uri "http://localhost:9000/v1/audio/speech" `
   -Method POST `
   -ContentType "application/json" `
   -Body $body `

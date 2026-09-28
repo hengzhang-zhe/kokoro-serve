@@ -4,6 +4,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
+ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        espeak-ng \
@@ -15,7 +17,11 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY requirements.txt .
+
+# Install CPU-only PyTorch first so Kokoro does not pull CUDA/NVIDIA wheels
+# from the default PyPI dependency resolution path.
 RUN pip install --upgrade pip \
+    && pip install --index-url ${TORCH_INDEX_URL} torch \
     && pip install -r requirements.txt
 
 COPY app ./app

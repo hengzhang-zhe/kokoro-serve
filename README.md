@@ -19,6 +19,7 @@ Kokoro Serve does not embed or fork third-party FastAPI/WebUI wrappers. It provi
 - Persistent Hugging Face cache
 - Health, model and voice discovery endpoints
 - Windows-friendly local deployment
+- Unified default port: `9000`
 
 ## Quick start
 
@@ -40,13 +41,13 @@ docker compose logs -f
 OpenAPI:
 
 ```text
-http://localhost:8880/docs
+http://localhost:9000/docs
 ```
 
 Health:
 
 ```text
-http://localhost:8880/health
+http://localhost:9000/health
 ```
 
 ## Generate speech
@@ -76,7 +77,7 @@ Voice prefixes enabled by this service:
 ## Architecture
 
 ```text
-HTTP API
+HTTP API :9000
    ↓
 KokoroServeEngine
    ↓

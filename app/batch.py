@@ -122,6 +122,7 @@ async def import_task(raw: bytes) -> dict[str, Any]:
     )
     async with _lock:
         _jobs[job_id] = job
+    _save_status(job)
 
     return job_view(job)
 

@@ -5,7 +5,7 @@ from app.audio import MEDIA_TYPES
 from app.config import get_settings
 from app.engine import get_engine
 from app.schemas import SpeechRequest
-from app.voices import resolve_voice
+from app.voices import resolve_voice, voice_catalog
 
 router = APIRouter()
 settings = get_settings()
@@ -36,21 +36,12 @@ def models():
 
 @router.get("/v1/audio/voices")
 def voices():
+    data = voice_catalog()
     return {
+        "schemaVersion": "kokoro-voice-catalog/v1",
         "source": settings.model_repo,
-        "supported_prefixes": {
-            "af_*": {"locale": "en-US", "gender": "female"},
-            "am_*": {"locale": "en-US", "gender": "male"},
-            "bf_*": {"locale": "en-GB", "gender": "female"},
-            "bm_*": {"locale": "en-GB", "gender": "male"},
-        },
-        "recommended": [
-            "af_heart",
-            "af_bella",
-            "am_michael",
-            "bf_emma",
-            "bm_george",
-        ],
+        "count": len(data),
+        "voices": data,
     }
 
 @router.post("/v1/audio/speech")

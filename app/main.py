@@ -1,6 +1,9 @@
 from contextlib import asynccontextmanager
 
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 
 from app.api import router
 from app.config import get_settings
@@ -22,3 +25,7 @@ app = FastAPI(
 )
 
 app.include_router(router)
+
+@app.get("/", include_in_schema=False)
+def batch_studio():
+    return FileResponse(Path("web/index.html"))

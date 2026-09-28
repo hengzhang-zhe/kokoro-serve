@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Stop"
-$base = "http://localhost:8880"
+$base = "http://localhost:9000"
 
 Write-Host "Health:"
 Invoke-RestMethod "$base/health" | ConvertTo-Json -Depth 5

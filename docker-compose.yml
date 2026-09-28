@@ -9,7 +9,7 @@ services:
     container_name: kokoro-serve
 
     ports:
-      - "127.0.0.1:${KOKORO_SERVE_PORT:-8880}:8880"
+      - "127.0.0.1:${KOKORO_SERVE_PORT:-9000}:9000"
 
     environment:
       KOKORO_SERVE_MODEL_REPO: ${KOKORO_SERVE_MODEL_REPO:-hexgrad/Kokoro-82M}

@@ -91,3 +91,41 @@ hexgrad/Kokoro-82M
 Kokoro's official `KModel` documentation states that one model instance can be reused across multiple pipelines to avoid redundant memory allocation, which is the design used here.
 
 See `docs/ARCHITECTURE.md` and `THIRD_PARTY_NOTICES.md`.
+
+
+## Batch Audio Studio
+
+Open:
+
+```text
+http://localhost:9000/
+```
+
+The web UI accepts `typingo-tts-export.json` exported from Typingo Admin Audio Management.
+
+Workflow:
+
+```text
+Typingo Audio Management
+  -> select learning items
+  -> select Kokoro voices
+  -> export typingo-tts-export.json
+  -> upload to Kokoro Batch Audio Studio
+  -> generate
+  -> download ZIP
+```
+
+The ZIP contains:
+
+```text
+audio/
+  kokoro/
+    <contentId>/
+      <voice>.mp3
+audio-manifest.json
+generation-report.json
+```
+
+`audio-manifest.json` retains the Typingo `contentId`, locale and Kokoro voice for every generated file, so Typingo can associate imported audio with the original learning item.
+
+The web batch processor generates only the explicit `variants` contained in the uploaded task. It does not add default voices.

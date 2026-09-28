@@ -20,13 +20,6 @@ if ($source.schemaVersion -ne "typingo-tts-export/v1") {
     throw "Unsupported input schemaVersion: $($source.schemaVersion)"
 }
 
-$defaultVoices = @(
-    [pscustomobject]@{ voice = "af_heart";   locale = "en-US"; gender = "female"; accent = "US" },
-    [pscustomobject]@{ voice = "am_michael"; locale = "en-US"; gender = "male";   accent = "US" },
-    [pscustomobject]@{ voice = "bf_emma";    locale = "en-GB"; gender = "female"; accent = "UK" },
-    [pscustomobject]@{ voice = "bm_george";  locale = "en-GB"; gender = "male";   accent = "UK" }
-)
-
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $batchRoot = Join-Path $OutputRoot "batch-$timestamp"
 $audioRoot = Join-Path $batchRoot "audio\\kokoro"
@@ -41,10 +34,10 @@ foreach ($item in $source.items) {
     $index++
     Write-Host "[$index/$total] $($item.contentId) $($item.type): $($item.text)"
 
-    $profiles = if ($null -ne $item.variants -and @($item.variants).Count -gt 0) {
-        @($item.variants)
-    } else {
-        $defaultVoices
+    $profiles = @($item.variants)
+    if ($profiles.Count -eq 0) {
+        Write-Host "  SKIP no requested voice variants"
+        continue
     }
 
     foreach ($profile in $profiles) {

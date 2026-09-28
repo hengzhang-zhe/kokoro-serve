@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import Response
+import json
+from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse, Response
 
 from app.audio import MEDIA_TYPES
+from app.batch import get_job, import_task, job_view, start_generation
 from app.config import get_settings
 from app.engine import get_engine
 from app.schemas import SpeechRequest
@@ -81,4 +83,46 @@ async def speech(request: SpeechRequest):
     return Response(
         content=data,
         media_type=MEDIA_TYPES[request.response_format],
+    )
+
+
+@router.post("/v1/batches/import")
+async def import_batch(file: UploadFile = File(...)):
+    try:
+        raw = await file.read()
+        return await import_task(raw)
+    except (ValueError, json.JSONDecodeError) as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.post("/v1/batches/{job_id}/generate")
+async def generate_batch(job_id: str):
+    try:
+        return await start_generation(job_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Batch job not found") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+
+
+@router.get("/v1/batches/{job_id}")
+def batch_status(job_id: str):
+    try:
+        return job_view(get_job(job_id))
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Batch job not found") from exc
+
+
+@router.get("/v1/batches/{job_id}/download")
+def batch_download(job_id: str):
+    try:
+        job = get_job(job_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Batch job not found") from exc
+    if job.zip_path is None or not job.zip_path.exists():
+        raise HTTPException(status_code=409, detail="Batch output is not ready")
+    return FileResponse(
+        job.zip_path,
+        media_type="application/zip",
+        filename=f"typingo-audio-batch-{job.id}.zip",
     )

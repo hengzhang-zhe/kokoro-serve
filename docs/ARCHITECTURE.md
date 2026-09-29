@@ -56,6 +56,8 @@ Hugging Face runtime assets are persisted under:
 ./data/huggingface
 ```
 
+Local Python resolves this path from the project package before importing Kokoro. Docker Compose bind-mounts the same directory at `/data/huggingface`. `HF_HUB_DISABLE_SYMLINKS=1` keeps cache entries as regular files so both Windows and the Linux container can read them. The cache is ignored by Git and is populated on first model or voice use.
+
 Generated test files are stored under:
 
 ```text

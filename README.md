@@ -50,6 +50,12 @@ Health:
 http://localhost:9000/health
 ```
 
+## Local Python development
+
+Open this project in PyCharm with a dedicated Python environment and install `requirements.txt`. Run the `uvicorn` module with `app.main:app --host 127.0.0.1 --port 9000 --reload --reload-dir app` from the project directory. The app sets `HF_HOME` to `./data/huggingface` by default, so model downloads stay inside the project without a machine-specific PyCharm setting.
+
+Docker Compose mounts the same `./data/huggingface` directory into the container. Both runtimes use regular cache files rather than symlinks so Windows and Linux can read the same downloads. Restart the local process after changing the cache configuration. Only one runtime can bind host port `9000` at a time; change one port when running both services.
+
 ## Generate speech
 
 ```http

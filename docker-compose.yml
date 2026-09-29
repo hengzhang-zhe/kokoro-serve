@@ -17,6 +17,7 @@ services:
       KOKORO_SERVE_MAX_INPUT_CHARS: ${KOKORO_SERVE_MAX_INPUT_CHARS:-4096}
       KOKORO_SERVE_MAX_CONCURRENCY: ${KOKORO_SERVE_MAX_CONCURRENCY:-2}
       HF_HOME: /data/huggingface
+      HF_HUB_DISABLE_SYMLINKS: '1'
 
     volumes:
       - ./data/huggingface:/data/huggingface

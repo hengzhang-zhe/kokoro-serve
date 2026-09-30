@@ -2,14 +2,14 @@
 
 ## Scope
 
-Kokoro Serve is an HTTP service wrapper around the official Kokoro inference library and Kokoro-82M model.
+Typingo Kokoro is an HTTP service wrapper around the official Kokoro inference library and Kokoro-82M model.
 
 It deliberately does not fork a third-party Kokoro API server.
 
 ## Upstream boundary
 
 ```text
-kokoro-serve
+typingo-kokoro
    ↓ Python dependency
 hexgrad/kokoro
    ↓ Hugging Face model download
@@ -22,7 +22,7 @@ The official `KModel` implementation downloads `config.json` and the model weigh
 
 Kokoro's official model implementation documents that one `KModel` instance can be reused across multiple `KPipeline` instances to avoid redundant memory allocation.
 
-Kokoro Serve therefore uses:
+Typingo Kokoro therefore uses:
 
 ```text
 one KModel
@@ -68,7 +68,7 @@ Neither directory should be committed to Git.
 
 ## Production integration
 
-Kokoro Serve should stay stateless from the product perspective.
+Typingo Kokoro should stay stateless from the product perspective.
 
 Authentication, subscriptions, quotas, Redis metadata and permanent audio caching belong upstream in the consuming application or media service.
 

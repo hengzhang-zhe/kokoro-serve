@@ -1,6 +1,6 @@
 # Third-party notices
 
-Kokoro Serve contains its own API/service code and does not vendor the Kokoro model weights or voice files.
+Typingo Kokoro contains its own API/service code and does not vendor the Kokoro model weights or voice files.
 
 Runtime dependencies include:
 

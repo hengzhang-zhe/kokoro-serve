@@ -19,7 +19,7 @@ def encode_audio(audio: np.ndarray, sample_rate: int, fmt: str) -> bytes:
         sf.write(buffer, audio, sample_rate, format=fmt.upper())
         return buffer.getvalue()
 
-    with tempfile.TemporaryDirectory(prefix="kokoro-serve-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="typingo-kokoro-") as tmp:
         tmp_dir = Path(tmp)
         wav_path = tmp_dir / "input.wav"
         out_path = tmp_dir / ("output.mp3" if fmt == "mp3" else "output.opus")

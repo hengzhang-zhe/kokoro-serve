@@ -1,7 +1,7 @@
 $root = Split-Path -Parent $PSScriptRoot
 
 $text = @"
-Welcome to Kokoro Serve.
+Welcome to Typingo Kokoro.
 Schedule. Tomato. Water. Advertisement.
 Could you tell me where the nearest train station is?
 "@

@@ -1,6 +1,6 @@
 # Typingo offline audio workflow
 
-Kokoro Serve can be used as an offline audio production tool for Typingo. Typingo does not need to call Kokoro Serve in production.
+Typingo Kokoro can be used as an offline audio production tool for Typingo. Typingo does not need to call Typingo Kokoro in production.
 
 ## 1. Export from Typingo Admin
 
@@ -10,7 +10,7 @@ By default Typingo exports published English word/sentence/paragraph content tha
 
 ## 2. Generate four voice variants
 
-With Kokoro Serve running on port 9000:
+With Typingo Kokoro running on port 9000:
 
 ```powershell
 .\scripts\batch-generate.ps1 -InputFile "D:\Downloads\typingo-tts-export.json"
@@ -62,4 +62,4 @@ Typingo registers each file as a `media_asset` and links it back to the original
 
 ## Design boundary
 
-Typingo remains the source of truth for content IDs and text. Kokoro Serve remains an offline speech-production service. Binary audio stays outside Git and outside PostgreSQL; the JSON manifest is the contract connecting generated files back to Typingo.
+Typingo remains the source of truth for content IDs and text. Typingo Kokoro remains an offline speech-production service. Binary audio stays outside Git and outside PostgreSQL; the JSON manifest is the contract connecting generated files back to Typingo.

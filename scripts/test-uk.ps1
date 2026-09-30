@@ -2,7 +2,7 @@ $root = Split-Path -Parent $PSScriptRoot
 
 $body = @{
   model = "kokoro"
-  input = "Hello! Welcome to Kokoro Serve. Learning English can be easy and enjoyable."
+  input = "Hello! Welcome to Typingo Kokoro. Learning English can be easy and enjoyable."
   voice = "bf_emma"
   response_format = "mp3"
   speed = 1.0

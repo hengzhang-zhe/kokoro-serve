@@ -1,4 +1,4 @@
-# Kokoro Serve
+# Typingo Kokoro
 
 A self-hosted HTTP service built directly on the official Kokoro inference library and model.
 
@@ -7,7 +7,7 @@ A self-hosted HTTP service built directly on the official Kokoro inference libra
 - Inference library: `hexgrad/kokoro`
 - Model repository: `hexgrad/Kokoro-82M`
 
-Kokoro Serve does not embed or fork third-party FastAPI/WebUI wrappers. It provides its own API, Docker packaging, runtime configuration, tests, and audio encoding around the official Kokoro interfaces.
+Typingo Kokoro does not embed or fork third-party FastAPI/WebUI wrappers. It provides its own API, Docker packaging, runtime configuration, tests, and audio encoding around the official Kokoro interfaces.
 
 ## Features
 
@@ -26,17 +26,19 @@ Kokoro Serve does not embed or fork third-party FastAPI/WebUI wrappers. It provi
 Recommended Windows location:
 
 ```text
-D:\Zhe\Code\kokoro-serve
+D:\Zhe\Code\typingo-kokoro
 ```
 
 ```powershell
-git clone https://github.com/hengzhang-zhe/kokoro-serve.git
-cd kokoro-serve
+git clone https://github.com/hengzhang-zhe/typingo-kokoro.git
+cd typingo-kokoro
 Copy-Item .env.example .env
 docker compose build
 docker compose up -d
 docker compose logs -f
 ```
+
+Docker Compose builds the local image as `typing-kokoro:latest` and runs the `typingo-kokoro` service.
 
 OpenAPI:
 

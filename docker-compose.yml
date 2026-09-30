@@ -1,12 +1,13 @@
-name: kokoro-serve
+name: typingo-kokoro
 
 services:
-  kokoro-serve:
+  typingo-kokoro:
     build:
       context: .
       dockerfile: Dockerfile
+    image: typing-kokoro:latest
 
-    container_name: kokoro-serve
+    container_name: typingo-kokoro
 
     ports:
       - "127.0.0.1:${KOKORO_SERVE_PORT:-9000}:9000"

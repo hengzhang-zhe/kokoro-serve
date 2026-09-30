@@ -38,7 +38,7 @@ def resolve_voice(voice: str) -> VoiceRoute:
         accent = "UK"
     else:
         raise ValueError(
-            "Kokoro Serve currently enables English voices only: "
+            "Typingo Kokoro currently enables English voices only: "
             "a*=American English, b*=British English"
         )
 
